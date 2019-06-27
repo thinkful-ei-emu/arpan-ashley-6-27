@@ -9,8 +9,7 @@ class App extends Component {
   
 
   state = {
-    store: STORE
-    
+    store: STORE    
   }
   
 
@@ -43,10 +42,7 @@ class App extends Component {
 
   }
   
-   
-
-
-  handleAddCard = () => {
+  handleAddCard = (listId) => {
 
 
     const newRandomCard = () => {
@@ -61,34 +57,21 @@ class App extends Component {
 
     console.log('handleAdd ran')
 
-    console.log(newRandomCard());
-
     const newCard = newRandomCard();
-
-    console.log(newCard);
+ 
   
-    // newCard = this.newRandomCard;
-
-    let newCardId = this.state.store.lists.map(list => ({
-      ...list,
-      cardIds: [...list.cardIds, newCard.id]
-
-    }))
+    let newCardId = this.state.store.lists.map(
+      (list) => listId === list.id ? {...list, cardIds: [...list.cardIds, newCard.id]} : list
+     )
 
     console.log(newCardId);
 
-    const allCar = {
-      ...this.state.store.allCards,
-      [newCard.id]: newCard
-    }
-
-    console.log(allCar);
-
-
+  
     this.setState({
       store:{
         lists: newCardId,
-        allCards: allCar
+        allCards: {...this.state.store.allCards,
+        [newCard.id]: newCard}
       }
     })
     }
